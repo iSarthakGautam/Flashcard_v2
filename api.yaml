@@ -1,0 +1,292 @@
+openapi: 3.0.0
+info:
+  title: Final Project
+  description: 
+    <div>In this Project, I have gnerated basic restful api's.
+
+    <h3>profile_db Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>user_name</td>
+        <td>String</td>
+        <td>Unique,Not Null, Primary Key</td>
+      </tr> 
+      <tr>
+        <td>first_name</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>      
+      <tr>
+        <td>email</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>     
+       <tr>
+        <td>password</td>
+        <td>String</td>
+        <tdNot Null<></td>
+      </tr>     
+    </tbody>
+    </table>
+
+    <h3> Deck Table Schema </h3> 
+    <table>
+      <thead>
+        <th>Column Name</th>
+        <th>Column Type</th>
+        <th>Constraints</th>
+      </thead>
+      <tbody>
+      <tr>
+        <td>word_id</td>
+        <td>Integer</td>
+        <td>Primary Key, Auto Increment</td>
+      </tr>
+      <tr>
+        <td>deck_name</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>Word</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>      
+      <tr>
+        <td>Meaning</td>
+        <td>String</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>score</td>
+        <td>Integer</td>
+        <td>Not Null</td>
+      </tr>
+      <tr>
+        <td>user_name</td>
+        <td>string</td>
+        <td>Not Null</td>
+      </tr>  
+    </tbody>
+    </table>
+
+
+
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:5000/
+paths:
+  /login?include_auth_token:
+    description: Login Page
+    
+
+    post:
+      description: Operation to post the username resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: new@me.com
+                password:
+                  type: string
+                  example: "1234"
+      responses:
+        '200':
+          description: "authentication_token"
+              
+
+        '400':
+          description: "You can only access this endpoint when not logged in."
+        '500':
+          description: Internal Server Error
+        
+  /api/getemail/{username}:
+    description: Get email and password    
+    get:
+      description: Operation to post the username resource
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+            example: "qwe"
+      responses:
+        '201':
+          description: Login Successful
+          content:
+            application/json:
+   
+
+        '409':
+          description: No such user
+        '500':
+          description: Internal Server Error
+        
+  
+        
+  /api/signup/:
+    description: SignUp Page
+
+  
+    post:
+      description: Create a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: abcd
+                f_name:
+                  type: string
+                  example: Testname
+                password:
+                  type: string
+                  example: abc123  
+                email:
+                  type: string
+                  example: testname@mail.com  
+      responses:
+        '201':
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "'Username' Added Successfully"
+   
+        '409':
+          description: user_name does not  exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Username exists already"
+        '500':
+          description: Internal Server Error
+  
+  
+  
+  /api/dashboard/{username}:
+    description: Dashboard 
+    get:
+      description: Get request for Dashboard
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+            example: "qwe"
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                title: Decks
+                type: object
+                properties:
+                  urladd:
+                    type: string
+                    example: "qwe"
+                  data:
+                    type: string
+                    example: "{  'name': 'qwe',  'data': 'lastacces',  'deck': [    'deck_name_1',    'deck_name_2'],  'message': 'Success',  'details': [    [      'deck_name_1',      'score',      'lastacces'    ],    [      'deck_name_1',      'score',      'lastacces'  ]]}"
+        '500':
+          description: Internal Server Error
+ 
+
+
+
+
+  
+  /api/dashboard/{username}/{deck_name}:
+  
+    delete:
+      description: Operation to delete the course resource
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+            example: qwe
+        - in: path    
+          name: deck_name
+          required: true
+          schema:
+            type: string
+            example: English
+      
+      responses:
+        '200':
+          description: deleted deck_name
+        '404':
+          description: Deck Not found
+        '500':
+          description: Intenal Server Error
+             
+   
+  /api/profile/{username}:
+    get:
+      description: Each Card info
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+            example: qwe
+      responses:
+        '200':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                title: Table for delete and update
+                type: object
+                properties:
+                  
+ 
+
+ 
+                  data:
+                    type: string
+                    example: "{  'user_name': 'qwe','first_name':'test',  'email': 'new@me.com'}"
+        '404':
+          description: No Resource Found   
+          content:
+            application/json:
+              schema:
+                title: Table for delete and update
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: check user name
+
+        '500':
+          description: Internal Server Error
+          
+
+  
